@@ -1,0 +1,29 @@
+MATLAB Project Requirements
+===========================
+1. MATLAB Version
+-----------------
+Recommended: MATLAB R2023b
+Minimum: MATLAB R2018a
+Reason: Ensures full compatibility with modern Image Processing Toolbox functions (like 'psnr' and 'ssim'), GPU acceleration capabilities, and guarantees smooth execution of the provided .p (P-code) files.
+
+2. Required Toolboxes
+---------------------
+The following toolboxes must be installed and licensed for the code to run:
+
+- Image Processing Toolbox
+  (Essential for image I/O, color space conversions like 'rgb2ycbcr', scaling with 'imresize', and calculating objective evaluation metrics like 'psnr' and 'ssim'.)
+
+- Parallel Computing Toolbox
+  (Required for GPU parallel computing and acceleration features. Enables faster processing of high-resolution datasets when utilizing compatible NVIDIA GPUs.)
+
+3. Hardware Recommendations
+---------------------------
+CPU: Modern multi-core processor (Intel Core i5 / AMD Ryzen 5 or better).
+GPU: NVIDIA GPU with compute capability 3.0 or higher (highly recommended for Parallel Computing Toolbox acceleration).
+RAM: 8GB or higher (16GB recommended for GPU processing). 
+Reason: The algorithm processes multiple color channels (R, G, B) individually and extracts details. Processing larger images or batches, especially when transferring data between CPU and GPU memory, will increase overall memory consumption.
+
+4. File System
+--------------
+Permissions: Read/Write access to the current directory.
+Reason: The script requires permissions to create the '.\results' folder, save the output enhanced .png images, and write the 'psnr_ssim.csv' metrics file.
