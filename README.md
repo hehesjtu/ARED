@@ -1,4 +1,4 @@
-# ARDE
+# ARDE ：Attraction-Repulsion Mechanism Inspired Single Image Detail Enhancement Method
 This is the source code of paper named "Attraction-Repulsion Mechanism Inspired Single Image Detail
 Enhancement Method".
 
@@ -61,5 +61,6 @@ The enhanced images will be saved in the results folder, with the filename forma
 [Original Filename]_X[Enhancement Intensity]_ARDE.png.
 
 For example: pattern_ARDE_X4.png
+
 
 
