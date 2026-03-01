@@ -6,7 +6,7 @@ Files = dir(strcat(Pathr,'*.png'));
 LengthFiles = length(Files);
 factor = 4;
 
-%================= 预分配保存每张图的 PSNR / SSIM =================%
+%================= Pre-allocate to save the PSNR/SSIM of each image. =================%
 psnr_all = zeros(LengthFiles,1);
 ssim_all = zeros(LengthFiles,1);
 %==================================================================%
@@ -20,18 +20,18 @@ for ii = 1:LengthFiles
     outimg2=image(:,:,2);
     outimg3=image(:,:,3);
     
-    %% using Metropolis theorem to get H1
+    % using Metropolis theorem to get H1
     H1_outimg1=ARDE_main(outimg1);             
     H1_outimg2=ARDE_main(outimg2); 
     H1_outimg3=ARDE_main(outimg3);
     
-    %% get details
+    % get details
     Details=zeros(size(image,1),size(image,2),3);
     Details(:,:,1)=imresize(H1_outimg1,[size(image,1),size(image,2)],'bilinear');
     Details(:,:,2)=imresize(H1_outimg2,[size(image,1),size(image,2)],'bilinear');
     Details(:,:,3)=imresize(H1_outimg3,[size(image,1),size(image,2)],'bilinear');
     
-    %% add details to the original images
+    % add details to the original images
     outimg1=outimg1+Details(:,:,1)*factor;
     outimg2=outimg2+Details(:,:,2)*factor;
     outimg3=outimg3+Details(:,:,3)*factor;
@@ -41,7 +41,7 @@ for ii = 1:LengthFiles
     imwrite(uint8(outimg),strcat('./results/',Files(ii).name(1:end-4),'_X4_ARDE.png'));
     disp(strcat(Files(ii).name,' is finished!!'));
 
-    %================= 计算并保存该图像的 PSNR / SSIM =====================%
+    %================= Calculate and save this image's PSNR / SSIM =====================%
     orig_uint8 = uint8(image);
     enh_uint8  = uint8(outimg);
     orig_ycrcb = rgb2ycbcr(orig_uint8);
@@ -59,7 +59,7 @@ for ii = 1:LengthFiles
     clear outimg;
 end
 
-%================= 循环后输出平均值 =============================%
+%================= Output the average value after the loop. =============================%
 mean_psnr = mean(psnr_all);
 mean_ssim = mean(ssim_all);
 fprintf('=================================================\n');
@@ -68,7 +68,7 @@ fprintf('Average PSNR (Y channel): %.4f dB\n', mean_psnr);
 fprintf('Average SSIM (Y channel): %.4f\n', mean_ssim);
 fprintf('=================================================\n');
 
-%================= 保存 CSV 文件 ===========================%
+%================= Save CSV file ===========================%
 csv_name = './results/psnr_ssim.csv';
 fid = fopen(csv_name,'w');
 fprintf(fid,'ImageName,PSNR_Y,SSIM_Y\n');
@@ -78,4 +78,5 @@ end
 fprintf(fid,'AVERAGE,%.4f,%.6f\n',mean_psnr,mean_ssim);
 fclose(fid);
 fprintf('Metrics CSV saved: %s\n', csv_name);
+
 %================================================================%
